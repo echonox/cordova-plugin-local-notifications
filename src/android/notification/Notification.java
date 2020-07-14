@@ -49,6 +49,8 @@ import java.util.TimerTask;
 import androidx.collection.ArraySet;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import de.appplant.cordova.plugin.localnotification.TriggerReceiver;
 
 import static android.app.AlarmManager.RTC;
@@ -254,9 +256,11 @@ public final class Notification {
                         mgr.setExact(RTC_WAKEUP, time, pi);
                         break;
                 }
-            } catch (Exception ignore) {
+            } catch (Exception e) {
                 // Samsung devices have a known bug where a 500 alarms limit
                 // can crash the app
+                FirebaseCrashlytics.getInstance().recordException(e);
+
             }
         }
     }
